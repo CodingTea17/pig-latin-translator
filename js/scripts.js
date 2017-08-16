@@ -30,6 +30,14 @@ var firstLetterChecker = function(word) {
 
 var consonantCase = function(consonantWord) {
   var stringOfConsonants = "";
+  //
+  var quCheckString = consonantWord.slice(1,consonantWord.length);
+  if (quCheckString.charAt(0) === "q" && quCheckString.charAt(1) === "u"){
+    // alert(consonantWord.slice(3, consonantWord.length));
+    stringOfConsonants = consonantWord.charAt(0) + "qu";
+    consonantWord = consonantWord.slice(3,consonantWord.length) + stringOfConsonants;
+    return consonantWord + "ay";
+  };
   for(var i = 0; i < consonantWord.length; i++) {
     if(vowelChecker(consonantWord.charAt(i))) {
       /***************************************************************************
@@ -91,6 +99,7 @@ $(document).ready(function() {
     var translatedArray = arrayOfEnglishWords.map(firstLetterChecker);
 
     // Finds the p with an id "igpay", shows it, and places the translatedArray into it
-    $("#igpay").show().text(translatedArray.join(" "));
+    $("#ardcay").show();
+    $("#igpay").text(translatedArray.join(" "));
   });
 });
