@@ -1,8 +1,18 @@
 // BACKEND LOGIC
 var firstLetterChecker = function(word) {
+  // Converts all letters to lowercase
+  word = word.toLowerCase();
+  /********************************************************************************
+  ** IF the first letter is a "y" then is sends the sentence to the consonantCase
+  ** BUT first it chops off the "y" and adds it to the end of the word
+  ** (e.g. "year" --> "ear" + "y" --> "eary")
+  *********************************************************************************/
   if(word.charAt(0) === "y") {
-
-  } else if (word.charAt(0) === "q" && word.charAt(1) === "u") {
+    word = yCase(word);
+    return word;
+  }
+  // IF the word begins with a "qu" it runs the qCase()
+  else if (word.charAt(0) === "q" && word.charAt(1) === "u") {
     word = qCase(word);
     return word;
   }
@@ -19,20 +29,31 @@ var firstLetterChecker = function(word) {
 };
 
 var consonantCase = function(consonantWord) {
-  var stringOfConsonants ="";
+  var stringOfConsonants = "";
   for(var i = 0; i < consonantWord.length; i++) {
     if(vowelChecker(consonantWord.charAt(i))) {
-      return consonantWord.concat(stringOfConsonants + "ay");
+      /***************************************************************************
+      ** Once a VOWEL has been found it returns the string minus the length of
+      ** the stringOfConsonants and add that string along with "ay" to the end
+      ****************************************************************************/
+      return consonantWord.slice(stringOfConsonants.length).concat(stringOfConsonants + "ay");
     } else {
+      // If the letter is not a VOWEL it will append it to the stringOfConsonants
       stringOfConsonants = stringOfConsonants.concat(consonantWord.charAt(i));
     }
   };
 };
 
+var yCase = function(yWord) {
+  var yTranslated = (yWord.slice(1) + "y");
+  //
+  yTranslated = consonantCase(yTranslated);
+  return yTranslated;
+};
 // It will handle words that start with "qu"
 var qCase = function(quWord) {
   var quTranslated = (quWord.slice(2) + "qu");
-  // NOW WE NEED TO CHECK FOR VOWELS AND ADD "AY" TO THE END
+  //
   quTranslated = consonantCase(quTranslated);
   return quTranslated;
 };
@@ -41,7 +62,7 @@ var qCase = function(quWord) {
 var vowelCase = function(vowelWord) {
   var vowelTranslated = vowelWord.concat("way");
   return vowelTranslated;
-}
+};
 
 // It loops through an array of vowels and compares them to FIRSTLETTER.
 // IF there's a match then the func returns TRUE. Default is FALSE.
@@ -66,7 +87,10 @@ $(document).ready(function() {
     // Splits the sentence into an array of words
     var arrayOfEnglishWords = userEnglish.split(" ");
 
+    // Converts the sentence word by word and places the result into the translatedArray
     var translatedArray = arrayOfEnglishWords.map(firstLetterChecker);
-    alert(translatedArray);
+
+    // Finds the p with an id "igpay", shows it, and places the translatedArray into it
+    $("#igpay").show().text(translatedArray.join(" "));
   });
 });
