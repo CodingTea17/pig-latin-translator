@@ -13,15 +13,28 @@ var firstLetterChecker = function(word) {
   }
   // IF the word DOESN'T begin with a 'Y', 'Y', or 'VOWEL'. Then it must be a consonant.
   else {
-
+    word = consonantCase(word);
+    return word;
   }
+};
+
+var consonantCase = function(consonantWord) {
+  var stringOfConsonants ="";
+  for(var i = 0; i < consonantWord.length; i++) {
+    if(vowelChecker(consonantWord.charAt(i))) {
+      return consonantWord.concat(stringOfConsonants + "ay");
+    } else {
+      stringOfConsonants = stringOfConsonants.concat(consonantWord.charAt(i));
+    }
+  };
 };
 
 // It will handle words that start with "qu"
 var qCase = function(quWord) {
   var quTranslated = (quWord.slice(2) + "qu");
-  return quTranslated;
   // NOW WE NEED TO CHECK FOR VOWELS AND ADD "AY" TO THE END
+  quTranslated = consonantCase(quTranslated);
+  return quTranslated;
 };
 
 // It will handle words that start with vowels by adding the phrase "way" to the end of them.
